@@ -11,7 +11,7 @@
 
 ## About <a name = "about"></a>
 
-This bot was crafted for r/PlayingCardsMarket. The bot takes votes from those who have dealt with an other user, either successfully, or unsuccessfully, and updates that user's flair accordingly. It takes the current values it finds within the user flair (Positive: ?? Negative: ?? Neutral: ??) and increments them according to a user directive when summoned.
+__r/PlayingCardsMarket__ bot listens for input on r/PlayingCardsMarket and updates user flairs. One may enter either the command !positive, !neutral, or !negative to increment the user flair of the user they are rating.
 
 
 ## Getting Started <a name = "getting_started"></a>
@@ -34,7 +34,7 @@ Once the account is created, log in, go to this url(reddit.com/prefs/apps), and 
 
 Now that you've set up your bot account, granted it permissions on your subreddit, and created a script app, it's time to download the source code and paste in your environment variables.
 
-Download the .zip file containing the source code on this page. Unzip it and save it to your computer somewhere. Now open up the pw.envEXAMPLE file.\
+Download souce code on this page. Open to the pw.envEXAMPLE file.\
 Also have open reddit.com/prefs/apps as you'll need to copy/paste the items you'll find there.\
 __USER_AGENT__ is just a name that the server will identify your bot by. It can be whatever you want.\
 __CLIENT_ID__ and __CLIENT_SECRET__ are fround in prefs/apps.\
@@ -46,9 +46,10 @@ __STARTUP_LIMIT__ will cause the bot to check this many items when starting up. 
 __MENTIONS_LIMIT__ is the amount of mentions the bot will check on every sweep after the initial one.\
 __INTERVAL__ the time minutes the bot will sleep between requests.\
 __COMMAND_PREFIX__ The symbol to prefix your commands with.\
-__FLAIR_CSS_CLASS__ can be found in your mod panel on the edit/create user flair form. Make sure you are selecting the css class, and not the ID.\
+__FLAIR_CSS_CLASS__ can be found in your mod panel on the edit/create user flair form. Make sure you are selecting the css class, and not the ID.
 
 
+```javascript
 USER_AGENT="YOUR BOTS NAME"\
 CLIENT_ID="FROM PREFS/APPS"\
 CLIENT_SECRET="FROM PREFS/APPS"\
@@ -61,6 +62,7 @@ MENTIONS_LIMIT="25"\
 INTERVAL="1"\
 COMMAND_PREFIX="!"\
 FLAIR_CSS_CLASS="my-css-class"
+```
 
 
 now remove the EXAMPLE from the end of the filename.
@@ -80,12 +82,12 @@ Give it a minute to finish installing the dependencies. . . Then:
 ## Usage <a name = "usage"></a>
 
 
-When a user calls the bot, it will receive a mention in its inbox and will respond accordingly.\
-It checks the post it was summoned from, gets the user and updates their user flair by incrementing the current values.\
+When a user mentions the bot, it will receive a mention in its inbox and will respond accordingly.\
+It checks the comment it was summoned from, gets the parent submission or comment and updates the auther's user flair by incrementing the current values it finds.\
 A user can summon the bot by calling its username, then passing in a directive.
 
 Requests must be formatted as:
-```
+```javascript
 u/SnootyScraper !positive
 u/SnootyScraper !negative
 u/SnootyScraper !neutral
