@@ -1,9 +1,5 @@
 const Snoowrap = require('../config/snoo.config');
 const MentionBot = require('../service/MentionBot');
-const SubMonitorBot = require('../service/SubMonitorBot');
-const MultiSubMonitorBot = require('../service/MultiSubMonitorBot');
-const CommandBot = require('../service/CommandBot');
-const WikiEditor = require('../service/WikiEditor');
 const PriorityQueue = require('../util/PriorityQueue');
 const Command = require('../util/Command');
 /*
@@ -37,14 +33,6 @@ module.exports = class Reddit {
 
         /* [MentionBot Service] */
         this.mentions = new MentionBot(this.requester, process.env.STARTUP_LIMIT, process.env.MENTIONS_LIMIT);
-        /* [SubMonitorBot Service] */
-        this.submissions = new SubMonitorBot(this.requester);
-        /* [MultiSubMonitor Service] */
-        this.multis = new MultiSubMonitorBot(this.requester);
-        /* [CommandBot Service] */
-        this.commands = new CommandBot(this.requester, process.env.THREAD_ID, process.env.STARTUP_LIMIT);
-        /* [WikiEditor Service] */
-        this.wikieditor = new WikiEditor(this.requester, process.env.MASTER_SUB);
 
         /* 
             [Tasks]
@@ -65,50 +53,6 @@ module.exports = class Reddit {
         // Dequeue all the mentions into the priority queue
         while (mentions && !mentions.isEmpty()) {
             this.tasks.enqueue([mentions.dequeue(), priority]);
-        }
-        return this.tasks;
-    }
-    /*
-        [Get Submissions]
-            - Asks SubMonitor Service to get submissions
-            - Dequeues the submissions queue into tasks queue
-            - Returns the tasks queue
-    */
-    async getSubmissions(priority) {
-        const submissions = await this.submissions.getSubmissions();
-
-        // Dequeue all the submissions into the priority queue
-        while (submissions && !submissions.isEmpty()) {
-            this.tasks.enqueue([submissions.dequeue(), priority]);
-        }
-        return this.tasks;
-    }
-    /*
-        [Get Multis]
-            - Asks MultiSubMonitor Service to get submissions from all defined subreddits
-            - Dequeues the submissions queue into tasks queue
-            - Returns the tasks queue
-    */
-    async getMultis(priority) {
-        const multis = await this.multis.getSubmissions();
-        // Dequeue all the submissions into the priority queue
-        while (multis && !multis.isEmpty()) {
-            this.tasks.enqueue([multis.dequeue(), priority]);
-        }
-        return this.tasks;
-    }
-    /*
-        [Get Commands]
-            - Asks ThreadFollower Service to get commands
-            - The first time calling getCommands, will run assignFirst
-            - Dequeues the command queue into tasks queue
-            - Returns the tasks queue
-    */
-    async getCommands(priority) {
-        const commands = await this.commands.getCommands();
-        // Dequeue all the commands into the priority queue
-        while (commands && !commands.isEmpty()) {
-            this.tasks.enqueue([commands.dequeue(), priority]);
         }
         return this.tasks;
     }
@@ -148,12 +92,6 @@ module.exports = class Reddit {
             }
         }
 
-    }
-
-
-    /* [Wiki Editor] */
-    getWikiEditor() {
-        return this.wikieditor;
     }
     /* [Snoowrap Requester] */
     getRequester() {
