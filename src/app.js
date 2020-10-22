@@ -4,7 +4,6 @@ const dotenv = require('dotenv').config({
 const colors = require('colors');
 const Snoolicious = require('./lib/Snoolicious');
 const snoolicious = new Snoolicious();
-// const db = new Database('saved');
 const Snoowrap = require('snoowrap');
 const scoreIncrement = require('./util/scoreIncrement');
 /* 
@@ -51,7 +50,6 @@ async function handleCommand(task) {
                 // Reply with success message
                 await replyWithSuccess(task.item.id);
                 console.log("Saving item.".green);
-           
             }
         }
         await snoolicious.requester.getComment(task.item.id).save();
