@@ -30,7 +30,6 @@
   "dependencies": {
     "better-sqlite3": "^7.1.1",
     "colors": "^1.4.0",
-    "dateformat": "^3.0.3",
     "dotenv": "^8.2.0",
     "snoowrap": "^1.21.0"
   }

@@ -4,6 +4,8 @@
 
 - [About](#about)
 - [Getting Started](#getting_started)
+    -[Prerequisites](#prereqs)
+    -[Installing](#install)
 - [Usage](#usage)
 
 
@@ -17,7 +19,7 @@ This bot was crafted for r/PlayingCardsMarket. The bot takes votes from those wh
 These instructions will get you a copy of the bot up and running on your local machine.
 
 
-## Prerequisites
+## Prerequisites <a name="prereqs"></a>
 
 Make sure you have the correct version of NodeJS for your system. You can find the download here(https://nodejs.org/en/download/)
 
@@ -28,20 +30,23 @@ Once the account is created, log in, go to this url(reddit.com/prefs/apps), and 
 
 <img src='https://i.imgur.com/yq8akJ7.png'>
 
-## Installing
+## Installing <a name="install"></a>
 
 Now that you've set up your bot account, granted it permissions on your subreddit, and created a script app, it's time to download the source code and paste in your environment variables.
 
 Download the .zip file containing the source code on this page. Unzip it and save it to your computer somewhere. Now open up the pw.envEXAMPLE file.\
 Also have open reddit.com/prefs/apps as you'll need to copy/paste the items you'll find there.\
-<strong>USER_AGENT</strong> is just a name that the server will identify your bot by. It can be whatever you want.\
-<strong>CLIENT_ID</strong> and <strong>CLIENT_SECRET</strong> are fround in prefs/apps.\
-<strong>REDDIT_USER</strong> is your bots username.\
-<strong>REDDIT_PASS</strong> is its password.\
-<strong>MASTER_SUB</strong> is the subreddit it will work on.\
-<strong>FLAIR_CSS_CLASS</strong> can be found in your mod panel on the edit/create user flair form. Make sure you are selecting the css class, and not the ID.\
-<strong>LIMIT</strong> will cause the bot to check this many items per sweep. It takes a bit longer to start up, but can accomodate for more requests the higher you set it with a maximum of 25. Setting this value higher will ensure that when stopping and restarting the bot, no requests are forgotten.
-
+__USER_AGENT__ is just a name that the server will identify your bot by. It can be whatever you want.\
+__CLIENT_ID__ and __CLIENT_SECRET__ are fround in prefs/apps.\
+__REDDIT_USER__ is your bots username.\
+__REDDIT_PASS__ is its password.\
+__MASTER_SUB__ is the subreddit it will work on.\
+__DEBUG_NETWORK__ can be set to false.\
+__STARTUP_LIMIT__ will cause the bot to check this many items when starting up. This is to ensure that when stopping and restarting the bot, no requests are forgotten. Can be set up to 100.\
+__MENTIONS_LIMIT__ is the amount of mentions the bot will check on every sweep after the initial one.\
+__INTERVAL__ the time minutes the bot will sleep between requests.\
+__COMMAND_PREFIX__ The symbol to prefix your commands with.\
+__FLAIR_CSS_CLASS__ can be found in your mod panel on the edit/create user flair form. Make sure you are selecting the css class, and not the ID.\
 
 
 USER_AGENT="YOUR BOTS NAME"
@@ -53,7 +58,7 @@ MASTER_SUB="YOUR SUBREDDIT'S NAME"
 DEBUG_NETWORK='false'
 STARTUP_LIMIT='25'
 MENTIONS_LIMIT=25'
-INTERVAL='30'
+INTERVAL='1'
 COMMAND_PREFIX="!"
 FLAIR_CSS_CLASS="my-css-class"
 
@@ -85,11 +90,3 @@ u/SnootyScraper !positive
 u/SnootyScraper !negative
 u/SnootyScraper !neutral
 ```
-The request and response will be logged in the terminal for you to review, along with the date and time and the user who requested the bot.\
-Mentions will also be saved in the bots account, under <em>saved</em>.
-
-
-
-Just keep a terminal open with it running.
-
-As long as your internet is connected, it should continuously scan for mentions every 10 seconds.

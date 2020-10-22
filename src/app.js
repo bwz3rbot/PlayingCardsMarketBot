@@ -46,13 +46,13 @@ async function handleCommand(task) {
         } catch (err) {
             await replyWithError(err.message, task.item.id);
         }
-        
+
         // Reply with success message
         await replyWithSuccess(task.item.id);
         // Save to the db as already seen.
         await db.saveID(id);
     }
-    console.log("Size of the queue: ", snoolicious.tasks.size());
+    console.log("Size of the queue: ".gray, snoolicious.tasks.size());
 }
 
 /* [Validate Command] */
@@ -159,12 +159,14 @@ async function replyWithSuccess(id) {
 }
 
 /* [Snoolicious Run Cycle] */
-const INTERVAL = (process.env.INTERVAL * 1000);
+const INTERVAL = (process.env.INTERVAL * 1000 * 60);
+console.log("https://github.com/web-temps/PlayingCardsMarketBot".blue);
 async function run() {
+        console.log("checking for any new mentions...".grey);
         await snoolicious.getMentions(2);
-        console.log("Size of the queue: ", snoolicious.tasks.size());
+        console.log("number of items in the queue: ".gray, snoolicious.tasks.size());
         await snoolicious.queryTasks(handleCommand);
-        console.log(`Sleeping for ${INTERVAL/1000} seconds...`.rainbow);
+        console.log(`Sleeping for ${INTERVAL/1000/60} minute(s)...`.grey);
         setTimeout(async () => {
             await run();
         }, (INTERVAL));
