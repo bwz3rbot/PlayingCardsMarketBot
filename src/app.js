@@ -6,7 +6,6 @@ const Snoolicious = require('./lib/Snoolicious');
 const snoolicious = new Snoolicious();
 const Database = require('./data/sqlite.config');
 const db = new Database('saved');
-const bot = require('./bot');
 const Snoowrap = require('snoowrap');
 const scoreIncrement = require('./util/scoreIncrement');
 /* 
