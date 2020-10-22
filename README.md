@@ -4,8 +4,8 @@
 
 - [About](#about)
 - [Getting Started](#getting_started)
-    -[Prerequisites](#prereqs)
-    -[Installing](#install)
+    - [Prerequisites](#prereqs)
+    - [Installing](#install)
 - [Usage](#usage)
 
 
@@ -49,17 +49,17 @@ __COMMAND_PREFIX__ The symbol to prefix your commands with.\
 __FLAIR_CSS_CLASS__ can be found in your mod panel on the edit/create user flair form. Make sure you are selecting the css class, and not the ID.\
 
 
-USER_AGENT="YOUR BOTS NAME"
-CLIENT_ID="FROM PREFS/APPS"
-CLIENT_SECRET="FROM PREFS/APPS"
-REDDIT_USER="YOUR BOT'S USERNAME"
-REDDIT_PASS="YOUR BOT'S PASSWORD"
-MASTER_SUB="YOUR SUBREDDIT'S NAME"
-DEBUG_NETWORK='false'
-STARTUP_LIMIT='25'
-MENTIONS_LIMIT=25'
-INTERVAL='1'
-COMMAND_PREFIX="!"
+USER_AGENT="YOUR BOTS NAME"\
+CLIENT_ID="FROM PREFS/APPS"\
+CLIENT_SECRET="FROM PREFS/APPS"\
+REDDIT_USER="YOUR BOT'S USERNAME"\
+REDDIT_PASS="YOUR BOT'S PASSWORD"\
+MASTER_SUB="YOUR SUBREDDIT'S NAME"\
+DEBUG_NETWORK="false"\
+STARTUP_LIMIT="25"\
+MENTIONS_LIMIT="25"\
+INTERVAL="1"\
+COMMAND_PREFIX="!"\
 FLAIR_CSS_CLASS="my-css-class"
 
 
