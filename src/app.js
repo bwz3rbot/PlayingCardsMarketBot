@@ -5,7 +5,7 @@ const colors = require('colors');
 const Snoolicious = require('./lib/Snoolicious');
 const snoolicious = new Snoolicious();
 const Database = require('./data/sqlite.config');
-const db = new Database('saved');
+// const db = new Database('saved');
 const Snoowrap = require('snoowrap');
 const scoreIncrement = require('./util/scoreIncrement');
 /* 
@@ -32,8 +32,8 @@ const scoreIncrement = require('./util/scoreIncrement');
 async function handleCommand(task) {
 
     const id = `${task.item.parent_id}${task.item.id}${task.item.created_utc}`;
-    const checkedId = await db.checkID(id);
-    if (!checkedId && (task.item.subreddit.display_name === process.env.MASTER_SUB)) {
+    // const checkedId = await db.checkID(id);
+    if ((task.item.subreddit.display_name === process.env.MASTER_SUB)) {
         try {
             console.log(`received new command from u/${task.item.author.name}`.yellow);
             console.log(task.command);
@@ -43,13 +43,19 @@ async function handleCommand(task) {
             await grantUserFlairs(parentUsername, task.command.directive);
             console.log(`sucessfully updated u/${parentUsername}'s flair!`.green);
         } catch (err) {
-            await replyWithError(err.message, task.item.id);
+            if (err) {
+                await replyWithError(err.message, task.item.id);
+            } else {
+                // Reply with success message
+                await replyWithSuccess(task.item.id);
+            }
+
+
         }
 
-        // Reply with success message
-        await replyWithSuccess(task.item.id);
+
         // Save to the db as already seen.
-        await db.saveID(id);
+        // await db.saveID(id);
     }
     console.log("Size of the queue: ".gray, snoolicious.tasks.size());
 }
