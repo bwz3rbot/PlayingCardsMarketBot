@@ -9,12 +9,12 @@
 - [Usage](#usage)
 
 
-## About <a name = "about"></a>
+# About <a name = "about"></a>
 
 __r/PlayingCardsMarket__ bot listens for input on r/PlayingCardsMarket and updates user flairs. One may enter either the command !positive, !neutral, or !negative to increment the user flair of the user they are rating.
 
 
-## Getting Started <a name = "getting_started"></a>
+# Getting Started <a name = "getting_started"></a>
 
 These instructions will get you a copy of the bot up and running on your local machine.
 
@@ -50,17 +50,17 @@ __FLAIR_CSS_CLASS__ can be found in your mod panel on the edit/create user flair
 
 
 ```javascript
-USER_AGENT="YOUR BOTS NAME"\
-CLIENT_ID="FROM PREFS/APPS"\
-CLIENT_SECRET="FROM PREFS/APPS"\
-REDDIT_USER="YOUR BOT'S USERNAME"\
-REDDIT_PASS="YOUR BOT'S PASSWORD"\
-MASTER_SUB="YOUR SUBREDDIT'S NAME"\
-DEBUG_NETWORK="false"\
-STARTUP_LIMIT="25"\
-MENTIONS_LIMIT="25"\
-INTERVAL="1"\
-COMMAND_PREFIX="!"\
+USER_AGENT="YOUR BOTS NAME"
+CLIENT_ID="FROM PREFS/APPS"
+CLIENT_SECRET="FROM PREFS/APPS"
+REDDIT_USER="YOUR BOT'S USERNAME"
+REDDIT_PASS="YOUR BOT'S PASSWORD"
+MASTER_SUB="YOUR SUBREDDIT'S NAME"
+DEBUG_NETWORK="false"
+STARTUP_LIMIT="25"
+MENTIONS_LIMIT="25"
+INTERVAL="1"
+COMMAND_PREFIX="!"
 FLAIR_CSS_CLASS="my-css-class"
 ```
 
@@ -79,7 +79,7 @@ Give it a minute to finish installing the dependencies. . . Then:
 > node src/app.js
 
 
-## Usage <a name = "usage"></a>
+# Usage <a name = "usage"></a>
 
 
 When a user mentions the bot, it will receive a mention in its inbox and will respond accordingly.\
