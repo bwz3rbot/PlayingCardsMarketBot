@@ -4,7 +4,6 @@ const dotenv = require('dotenv').config({
 const colors = require('colors');
 const Snoolicious = require('./lib/Snoolicious');
 const snoolicious = new Snoolicious();
-const Database = require('./data/sqlite.config');
 // const db = new Database('saved');
 const Snoowrap = require('snoowrap');
 const scoreIncrement = require('./util/scoreIncrement');
@@ -30,8 +29,11 @@ const scoreIncrement = require('./util/scoreIncrement');
                 }
 */
 async function handleCommand(task) {
-
-    const id = `${task.item.parent_id}${task.item.id}${task.item.created_utc}`;
+    const isSaved = await snoolicious.requester.getComment(task.item).saved;
+    if (isSaved) {
+        console.log("Item saved already.".red);
+        return
+    }
     // const checkedId = await db.checkID(id);
     if ((task.item.subreddit.display_name === process.env.MASTER_SUB)) {
         try {
@@ -48,14 +50,11 @@ async function handleCommand(task) {
             } else {
                 // Reply with success message
                 await replyWithSuccess(task.item.id);
+                console.log("Saving item.".green);
+           
             }
-
-
         }
-
-
-        // Save to the db as already seen.
-        // await db.saveID(id);
+        await snoolicious.requester.getComment(task.item.id).save();
     }
     console.log("Size of the queue: ".gray, snoolicious.tasks.size());
 }
@@ -97,15 +96,14 @@ function checkUserRatingSelf(parent, itemAuthorName) {
     console.log("validating user not rating on self...".magenta);
     switch (parent.isSubmission) {
         case (true):
-            if (parent.item.author === itemAuthorName) {
-                console.log(`user ${itemAuthorName} tried to rate themselves!`.red);
+            if (parent.item.author.name === itemAuthorName | parent.item.author === itemAuthorName) {
                 throw new Error(message = "No, no, no! You cant rate yourself!");
             } else {
                 return parent.item.author;
             }
             case (false):
-                if (parent.item.author.name === itemAuthorName) {
-                    console.log(`user ${itemAuthorName} tried to rate themselves!`.red);
+
+                if (parent.item.author.name === itemAuthorName | parent.item.author === itemAuthorName) {
                     throw new Error(message = "No, no, no! You cant rate yourself!");
                 } else {
                     return parent.item.author.name;
