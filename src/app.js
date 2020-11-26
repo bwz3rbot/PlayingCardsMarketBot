@@ -33,11 +33,9 @@ async function handleCommand(task) {
         console.log("Item saved already.".red);
         return
     }
-    // const checkedId = await db.checkID(id);
     if ((task.item.subreddit.display_name === process.env.MASTER_SUB)) {
         try {
             console.log(`received new command from u/${task.item.author.name}`.yellow);
-            console.log(task.command);
             validateCommand(task.command);
             const parent = await getParentSubmission(task.item);
             const parentUsername = checkUserRatingSelf(parent, task.item.author.name);
@@ -45,6 +43,8 @@ async function handleCommand(task) {
             console.log(`sucessfully updated u/${parentUsername}'s flair!`.green);
         } catch (err) {
             if (err) {
+                console.log("replying with error message! ".red);
+                console.log(err.message.red);
                 await replyWithError(err.message, task.item.id);
             } else {
                 // Reply with success message
@@ -59,12 +59,11 @@ async function handleCommand(task) {
 
 /* [Validate Command] */
 const validateCommand = function (command) {
-    console.log("validating command...".magenta)
+    console.log("validating command...".magenta);
     if (
-        (command.directive === 'positive') |
-        (command.directive === 'neutral') |
+        (command.directive === 'positive') ||
+        (command.directive === 'neutral') ||
         (command.directive === 'negative')) {} else {
-        console.log("command not understood error".red);
         throw new Error(message = 'Command not understood!');
     }
 }
@@ -92,22 +91,27 @@ async function getParentSubmission(item) {
 /* [Check User Rating Self] */
 function checkUserRatingSelf(parent, itemAuthorName) {
     console.log("validating user not rating on self...".magenta);
-    switch (parent.isSubmission) {
-        case (true):
-            if (parent.item.author.name === itemAuthorName | parent.item.author === itemAuthorName) {
-                throw new Error(message = "No, no, no! You cant rate yourself!");
-            } else {
-                return parent.item.author;
-            }
-            case (false):
-
-                if (parent.item.author.name === itemAuthorName | parent.item.author === itemAuthorName) {
-                    throw new Error(message = "No, no, no! You cant rate yourself!");
-                } else {
-                    return parent.item.author.name;
-                }
+    if (parent.item.author.name === itemAuthorName) {
+        throw new Error(message = "No, no, no! You cant rate yourself!");
+    } else {
+        return parent.item.author.name;
     }
 }
+// switch (parent.isSubmission) {
+//     case (true):
+//         if (parent.item.author.name === itemAuthorName | parent.item.author === itemAuthorName) {
+//             throw new Error(message = "No, no, no! You cant rate yourself!");
+//         } else {
+//             return parent.item.author;
+//         }
+//         case (false):
+
+//             if (parent.item.author.name === itemAuthorName | parent.item.author === itemAuthorName) {
+//                 throw new Error(message = "No, no, no! You cant rate yourself!");
+//             } else {
+//                 return parent.item.author.name;
+//             }
+// }
 
 /*
     [Grant User Flairs]
@@ -117,7 +121,6 @@ async function grantUserFlairs(parent, directive) {
     console.log("Granting user flairs...".magenta);
     // else, designate the flairs
     const userFlair = await snoolicious.requester.getSubreddit(process.env.MASTER_SUB).getUserFlair(parent);
-
     flair = userFlair.flair_text;
     let previousFlair;
     if (flair == undefined | flair == '') {
@@ -128,13 +131,16 @@ async function grantUserFlairs(parent, directive) {
 
     let newFlair = undefined;
     if (directive === 'positive') {
+        console.log("incrementing positive count...".green);
         newFlair = scoreIncrement.incrementPositiveCount(previousFlair);
     }
 
     if (directive === 'negative') {
+        console.log("incrementing negative count...".grey);
         newFlair = scoreIncrement.incrementNegativeCount(previousFlair);
     }
     if (directive === 'neutral') {
+        console.log("incrementing neutral count...".red);
         newFlair = scoreIncrement.incrementNeutralCount(previousFlair);
     }
 
@@ -160,14 +166,14 @@ async function replyWithSuccess(id) {
 }
 
 /* [Snoolicious Run Cycle] */
-const INTERVAL = (process.env.INTERVAL * 1000 * 60);
+const INTERVAL = (process.env.INTERVAL * 1000);
 console.log("https://github.com/web-temps/PlayingCardsMarketBot".blue);
 async function run() {
         console.log("checking for any new mentions...".grey);
         await snoolicious.getMentions(2);
         console.log("number of items in the queue: ".gray, snoolicious.tasks.size());
         await snoolicious.queryTasks(handleCommand);
-        console.log(`Sleeping for ${INTERVAL/1000/60} minute(s)...`.grey);
+        console.log(`Sleeping for ${INTERVAL/1000} seconds...`.grey);
         setTimeout(async () => {
             await run();
         }, (INTERVAL));
