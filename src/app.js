@@ -29,7 +29,9 @@ const scoreIncrement = require('./util/scoreIncrement');
 */
 async function handleCommand(task) {
     const isSaved = await snoolicious.requester.getComment(task.item).saved;
+    console.log(task.item.body);
     if (isSaved) {
+
         console.log("Item saved already.".red);
         return
     }
@@ -45,13 +47,12 @@ async function handleCommand(task) {
             if (err) {
                 console.log("replying with error message! ".red);
                 console.log(err.message.red);
-                await replyWithError(err.message, task.item.id);
-            } else {
-                // Reply with success message
-                await replyWithSuccess(task.item.id);
-                console.log("Saving item.".green);
+                return replyWithError(err.message, task.item.id);
             }
         }
+        // Reply with success message
+        await replyWithSuccess(task.item.id);
+        console.log("Saving item.".green);
         await snoolicious.requester.getComment(task.item.id).save();
     }
     console.log("Size of the queue: ".gray, snoolicious.tasks.size());

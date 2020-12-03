@@ -25,8 +25,10 @@ module.exports = class MentionBot {
     async getMentions() {
         if (!firstUTCAssigned) {
             firstUTCAssigned = true;
+            console.log("mention bot assigning first...");
             return this.assignFirst();
         } else {
+            console.log("mention bot checkign again...");
             return this.checkAgain();
         }
     }
